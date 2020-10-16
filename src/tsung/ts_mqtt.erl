@@ -166,6 +166,7 @@ parse(Data, State=#state_rcv{acc = [], session = MqttSession, socket = Socket}) 
             ?DebugF("receive mqtt_msg: ~p ~p~n",
                     [mqtt_frame:command_for_type(Wait), _MqttMsg]),
             NewLeft = case Wait of
+                ?CONNACK -> [];
                 ?SUBACK -> <<>>;
                 _ -> Left
             end,
