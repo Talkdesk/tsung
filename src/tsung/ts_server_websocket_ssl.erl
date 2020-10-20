@@ -138,7 +138,9 @@ loop(#state{parent = Parent, socket = Socket, state = connected,
                     loop(State#state{buffer = Left})
             end;
         {ssl_closed, Socket}->
-            Parent ! {gen_ts_transport, self(), closed};
+            % Parent ! {gen_ts_transport, self(), closed};
+            % Do not send ssl_closed from MQTT since it will take effect over the current request
+            ok;
         {ssl_error, Socket, Error}->
             Parent ! {gen_ts_transport, self(), error, Error};
         E -> ?LOGF("Message:~p~n", [E], ?WARN)
